@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "790361901661",
+    "project_id": "softroniics-projects",
+    "storage_bucket": "softroniics-projects.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790361901661:android:44e8180d52e804a0cf9bb4",
+        "android_client_info": {
+          "package_name": "com.example.tailwag"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF3N4watqb2HAELatnmfh-KuxaYH41jj8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
