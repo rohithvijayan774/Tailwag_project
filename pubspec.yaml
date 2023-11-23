@@ -39,6 +39,7 @@ dependencies:
   firebase_storage: ^11.5.1
   flutter:
     sdk: flutter
+  flutter_plugin_android_lifecycle: ^2.0.17
   image_picker: ^1.0.4
   intl: ^0.18.1
   pinput: ^3.0.1
@@ -132,6 +133,7 @@ flutter:
     - assets/images/feeding.png
     - assets/images/sitter_coverpic.jpg
     - assets/images/sitter_default_propic.jpg
+    - assets/images/hospital_default_dp.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

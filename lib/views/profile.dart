@@ -245,15 +245,10 @@ class Profile extends StatelessWidget {
                         ),
                         Consumer<Controller>(
                           builder: (context, provider, _) {
-                            final bottomProvider =
-                                Provider.of<BottomNavBarController>(context);
                             return IconButton(
-                              onPressed: () {
-                                provider.signOut(context);
-                                bottomProvider.currentIndex = 2;
-                              },
+                              onPressed: () {},
                               icon: const Icon(
-                                Icons.logout,
+                                Icons.settings_outlined,
                                 color: color2,
                               ),
                             );

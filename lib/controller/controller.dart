@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailwag/const.dart';
+import 'package:tailwag/controller/bottomnavbar_controller.dart';
 import 'package:tailwag/controller/sitter_controller.dart';
 import 'package:tailwag/models/my_notes_model.dart';
 import 'package:tailwag/models/reminder_model.dart';
@@ -739,4 +740,32 @@ class Controller extends ChangeNotifier {
     print('Pic uploaded successfully');
     notifyListeners();
   }
+
+  //_______________________________DRAWER_______________________________________
+
+  List<String> drawerTitles = [
+    'Home',
+    'Profile',
+    'Articles',
+    'Shop',
+    'Hospital',
+    'Sitters',
+    'Favourites',
+    'Notifications',
+    'Settings',
+    'Log out'
+  ];
+
+  List<Icon> drawerIcons = [
+    const Icon(Icons.home_outlined),
+    const Icon(Icons.person_outline_outlined),
+    const Icon(Icons.menu_book_outlined),
+    const Icon(Icons.shopping_bag_outlined),
+    const Icon(Icons.local_hospital_outlined),
+    const Icon(Icons.people_outline_sharp),
+    const Icon(Icons.favorite_border_rounded),
+    const Icon(Icons.notifications_none_outlined),
+    const Icon(Icons.settings_outlined),
+    const Icon(Icons.logout_rounded),
+  ];
 }

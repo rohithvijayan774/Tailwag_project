@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
+import 'package:tailwag/controller/bottomnavbar_controller.dart';
 import 'package:tailwag/controller/controller.dart';
+import 'package:tailwag/controller/hospital_controller.dart';
 import 'package:tailwag/views/care_categories/grooming.dart';
 import 'package:tailwag/views/care_categories/medicare.dart';
+import 'package:tailwag/views/care_categories/pet_hospitals.dart';
 import 'package:tailwag/views/care_categories/record_datas.dart';
 import 'package:tailwag/views/care_categories/reminder.dart';
 import 'package:tailwag/widgets/shop_list_tile.dart';
@@ -18,13 +21,50 @@ class Care extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final carePagePeovider = Provider.of<Controller>(context, listen: false);
+    final carePageProvider = Provider.of<Controller>(context, listen: false);
+    final bottomNavBarController =
+        Provider.of<BottomNavBarController>(context, listen: false);
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-    final drawerItems = {
-      'Home': Icon(Icons.home_outlined),
-      'Profile': Icon(Icons.person_outline_outlined),
-    };
+    void drawerList(int index) {
+      switch (index) {
+        case 0:
+          bottomNavBarController.updateIndex(2);
+          Navigator.of(context).pop();
+          break;
+        case 1:
+          bottomNavBarController.updateIndex(4);
+          Navigator.of(context).pop();
+          break;
+        case 2:
+          // bottomNavBarController.updateIndex(2);
+          Navigator.of(context).pop();
+          break;
+        case 3:
+          bottomNavBarController.updateIndex(0);
+          Navigator.of(context).pop();
+          break;
+        case 4:
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const PetHospitals(),
+          ));
+          break;
+        case 5:
+          bottomNavBarController.updateIndex(1);
+          Navigator.of(context).pop();
+          break;
+        case 6:
+          // bottomNavBarController.updateIndex(1);
+          Navigator.of(context).pop();
+          break;
+        case 9:
+          // bottomNavBarController.updateIndex(1);
+          carePageProvider.signOut(context);
+          bottomNavBarController.currentIndex = 2;
+          break;
+        default:
+      }
+    }
 
     return Scaffold(
       key: scaffoldKey,
@@ -44,10 +84,10 @@ class Care extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       CircleAvatar(
-                        backgroundImage: carePagePeovider.userModel.petPic ==
+                        backgroundImage: carePageProvider.userModel.petPic ==
                                 null
                             ? const AssetImage('assets/images/profile_pic.png')
-                            : NetworkImage(carePagePeovider.userModel.petPic!)
+                            : NetworkImage(carePageProvider.userModel.petPic!)
                                 as ImageProvider<Object>,
                       ),
                       const SizedBox(
@@ -239,7 +279,18 @@ class Care extends StatelessWidget {
                             fontSize: 15,
                             fontWeight: FontWeight.bold),
                       ),
-                      TextButton(onPressed: () {}, child: const Text('See all'))
+                      Consumer<HospitalController>(
+                          builder: (context, hospitalController, _) {
+                        return TextButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const PetHospitals(),
+                                ),
+                              );
+                            },
+                            child: const Text('See all'));
+                      })
                     ],
                   ),
                   const ShopListTile(
@@ -273,18 +324,31 @@ class Care extends StatelessWidget {
               left: 20,
               right: 50,
               top: 80,
+              bottom: 20,
             ),
             child: Column(
               children: [
                 Row(
                   children: [
                     CircleAvatar(
+                      backgroundImage: carePageProvider.userModel.petPic == null
+                          ? const AssetImage('assets/images/profile_pic.png')
+                          : NetworkImage(carePageProvider.userModel.petPic!)
+                              as ImageProvider<Object>,
                       radius: 40,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
-                    Text('data'),
+                    Text(
+                      carePageProvider.userModel.petName == null
+                          ? '[Pet name]'
+                          : carePageProvider.userModel.petName!,
+                      style: const TextStyle(
+                          fontFamily: 'AbhayaLibre',
+                          fontSize: 20,
+                          color: color1),
+                    ),
                   ],
                 ),
                 // SizedBox(
@@ -292,17 +356,39 @@ class Care extends StatelessWidget {
                 // ),
                 Expanded(
                   child: ListView.separated(
-                      separatorBuilder: (context, index) => const SizedBox(
-                            height: 10,
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: index == 6 ? 60 : 10,
+                    ),
+                    itemCount: carePageProvider.drawerTitles.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        width: width,
+                        height: height * 0.06,
+                        decoration: const BoxDecoration(
+                            color: color3,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        child: Center(
+                          child: ListTile(
+                            leading: Icon(
+                              carePageProvider.drawerIcons[index].icon,
+                              color: color2,
+                            ),
+                            title: Text(
+                              carePageProvider.drawerTitles[index],
+                              style: const TextStyle(
+                                color: color2,
+                                fontFamily: 'AbhayaLibre',
+                              ),
+                            ),
+                            onTap: () {
+                              drawerList(index);
+                            },
                           ),
-                      itemCount: 5,
-                      itemBuilder: (context, index) {
-                        return Container(
-                            width: width,
-                            height: height * 0.07,
-                            decoration: BoxDecoration(color: color3),
-                            child: ListTile());
-                      }),
+                        ),
+                      );
+                    },
+                  ),
                 )
               ],
             ),
