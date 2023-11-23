@@ -40,7 +40,7 @@ class HospitalController extends ChangeNotifier {
   List<HospitalModel> hospitalsList = [];
   HospitalModel? hospitals;
 
-  fetchHospitals() async {
+  Future<void> fetchHospitals() async {
     try {
       hospitalsList.clear();
 

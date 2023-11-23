@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tailwag/const.dart';
 
-class ShopListTile extends StatelessWidget {
+class HospitalListTile extends StatelessWidget {
   final String shopTitle;
   final String shopLocation;
   final double rating;
-  final String imageURL;
-  const ShopListTile(
+  final String? imageURL;
+  const HospitalListTile(
       {super.key,
       required this.shopTitle,
       required this.shopLocation,
@@ -20,13 +20,15 @@ class ShopListTile extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            height: 100,
-            width: 100,
+            height: 80,
+            width: 80,
             decoration: BoxDecoration(
               color: color2,
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
-                image: AssetImage(imageURL),
+                image: imageURL != null
+                    ? const AssetImage('assets/images/hospital_default_dp.jpg')
+                    : imageURL as ImageProvider<Object>,
                 fit: BoxFit.cover,
               ),
             ),

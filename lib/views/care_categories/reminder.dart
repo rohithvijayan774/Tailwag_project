@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
 import 'package:tailwag/controller/controller.dart';
 import 'package:tailwag/views/care_categories/add_reminder.dart';
+import 'package:tailwag/widgets/pet_tiny_avatar.dart';
 
 class Reminder extends StatelessWidget {
   const Reminder({super.key});
@@ -49,10 +50,9 @@ class Reminder extends StatelessWidget {
                             'assets/images/logo_brown.png',
                             scale: 2,
                           ),
-                          const CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/profile_pic.png'),
-                          ),
+                          PetTinyAvatar(
+                            networkImageURL: reminderProvider.userModel.petPic,
+                          )
                         ],
                       ),
                       const SizedBox(

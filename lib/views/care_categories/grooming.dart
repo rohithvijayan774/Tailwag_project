@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
+import 'package:tailwag/controller/controller.dart';
+import 'package:tailwag/widgets/pet_tiny_avatar.dart';
 import 'package:tailwag/widgets/products_tile.dart';
 import 'package:tailwag/widgets/shop_list_tile.dart';
 
@@ -11,6 +14,7 @@ class Grooming extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+    final groomingController = Provider.of<Controller>(context);
     return Scaffold(
       backgroundColor: color1,
       body: Padding(
@@ -38,10 +42,9 @@ class Grooming extends StatelessWidget {
                         'assets/images/logo_brown.png',
                         scale: 2,
                       ),
-                      const CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/images/profile_pic.png'),
-                      ),
+                      PetTinyAvatar(
+                        networkImageURL: groomingController.userModel.petPic,
+                      )
                     ],
                   ),
                   const SizedBox(

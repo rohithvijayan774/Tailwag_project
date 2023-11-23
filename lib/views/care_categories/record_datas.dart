@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
 import 'package:tailwag/controller/controller.dart';
 import 'package:tailwag/views/care_categories/create_notes.dart';
+import 'package:tailwag/widgets/pet_tiny_avatar.dart';
 
 class RecordDatas extends StatelessWidget {
   const RecordDatas({super.key});
@@ -11,13 +12,13 @@ class RecordDatas extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final controller = Provider.of<Controller>(context, listen: false);
+    final notesController = Provider.of<Controller>(context, listen: false);
     return Scaffold(
       backgroundColor: color1,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: FutureBuilder(
-          future: controller.fetchNotes(),
+          future: notesController.fetchNotes(),
           builder: (context, snapShot) {
             if (snapShot.connectionState == ConnectionState.waiting) {
               print('***** NOTES WAITING LIST ******');
@@ -44,10 +45,9 @@ class RecordDatas extends StatelessWidget {
                               'assets/images/logo_brown.png',
                               scale: 2,
                             ),
-                            const CircleAvatar(
-                              backgroundImage:
-                                  AssetImage('assets/images/profile_pic.png'),
-                            ),
+                            PetTinyAvatar(
+                              networkImageURL: notesController.userModel.petPic,
+                            )
                           ],
                         ),
                         const SizedBox(
@@ -117,10 +117,8 @@ class RecordDatas extends StatelessWidget {
                             'assets/images/logo_brown.png',
                             scale: 2,
                           ),
-                          const CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/profile_pic.png'),
-                          ),
+                          PetTinyAvatar(
+                              networkImageURL: notesController.userModel.petPic)
                         ],
                       ),
                       const SizedBox(

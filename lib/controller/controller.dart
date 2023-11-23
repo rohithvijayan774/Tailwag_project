@@ -440,7 +440,7 @@ class Controller extends ChangeNotifier {
   List<SitterModel> sittersList = [];
   SitterModel? sitters;
 
-  fetchSitters() async {
+  Future<void> fetchSitters() async {
     try {
       print('***************************FETCHING SITTERS************');
       sittersList.clear();
@@ -521,7 +521,7 @@ class Controller extends ChangeNotifier {
   List<MyNotesModel> myNotesList = [];
   MyNotesModel? myNotes;
 
-  fetchNotes() async {
+ Future<void> fetchNotes() async {
     try {
       print('********FETCHING NOTES******************');
       myNotesList.clear();
@@ -647,7 +647,7 @@ class Controller extends ChangeNotifier {
   List<ReminderModel> reminderList = [];
   ReminderModel? reminders;
 
-  fetchReminder(selectedDate) async {
+ Future<void> fetchReminder(selectedDate) async {
     try {
       print('*********FETCHING REMINDER *********');
       reminderList.clear();

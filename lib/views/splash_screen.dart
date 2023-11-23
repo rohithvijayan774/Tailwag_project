@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tailwag/controller/bottomnavbar_controller.dart';
 import 'package:tailwag/controller/controller.dart';
+import 'package:tailwag/controller/hospital_controller.dart';
 import 'package:tailwag/controller/sitter_controller.dart';
 import 'package:tailwag/views/on_boarding/onboarding_4.dart';
 import 'package:tailwag/widgets/bottomnavbar.dart';
@@ -17,12 +18,14 @@ class SplashScreen extends StatelessWidget {
     final userProvider = Provider.of<Controller>(context, listen: false);
     final sitterProvider =
         Provider.of<SitterController>(context, listen: false);
+    final hospitalPro = Provider.of<HospitalController>(context, listen: false);
     // final bottomProvider =
     //     Provider.of<BottomNavBarController>(context, listen: false);
 
     gotoNext(context) async {
       await userProvider.getDataFromFirestore();
       await sitterProvider.fetchSitterData();
+      await hospitalPro.fetchHospitals();
       if (userProvider.isSignedIn == true) {
         Navigator.of(context).push(
           MaterialPageRoute(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
 import 'package:tailwag/controller/hospital_controller.dart';
+import 'package:tailwag/widgets/hospital_list_tile.dart';
 
 class PetHospitals extends StatelessWidget {
   const PetHospitals({super.key});
@@ -55,28 +56,38 @@ class PetHospitals extends StatelessWidget {
                     );
                   },
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: color3,
-                          image: DecorationImage(
-                            image: hospitalController
-                                        .hospitalsList[index].hospitalPhoto !=
-                                    ""
-                                ? NetworkImage(hospitalController
-                                    .hospitalsList[index].hospitalPhoto)
-                                : const AssetImage(
-                                        'assets/images/hospital_default_dp.jpg')
-                                    as ImageProvider<Object>,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      title: Text(
-                          hospitalController.hospitalsList[index].hospitalName),
+                    return HospitalListTile(
+                      shopTitle:
+                          hospitalController.hospitalsList[index].hospitalName,
+                      shopLocation: hospitalController
+                          .hospitalsList[index].hospitalLocation,
+                      rating: hospitalController
+                          .hospitalsList[index].hospitalRating,
+                      imageURL:
+                          hospitalController.hospitalsList[index].hospitalPhoto,
                     );
+                    // return ListTile(
+                    //   leading: Container(
+                    //     height: 50,
+                    //     width: 50,
+                    //     decoration: BoxDecoration(
+                    //       color: color3,
+                    //       image: DecorationImage(
+                    //         image: hospitalController
+                    //                     .hospitalsList[index].hospitalPhoto !=
+                    //                 ""
+                    //             ? NetworkImage(hospitalController
+                    //                 .hospitalsList[index].hospitalPhoto)
+                    //             : const AssetImage(
+                    //                     'assets/images/hospital_default_dp.jpg')
+                    //                 as ImageProvider<Object>,
+                    //         fit: BoxFit.cover,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   title: Text(
+                    //       hospitalController.hospitalsList[index].hospitalName),
+                    // );
                   },
                 ),
               );

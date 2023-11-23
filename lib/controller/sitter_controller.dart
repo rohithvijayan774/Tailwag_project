@@ -271,7 +271,7 @@ class SitterController extends ChangeNotifier {
   String? _sitterid;
   String get sitterid => _sitterid!;
 
-  Future fetchSitterData() async {
+  Future<void> fetchSitterData() async {
     try {
       print('******************* STARTED FETCHING DATA**********');
       await firebaseFirestore

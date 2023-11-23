@@ -10,6 +10,7 @@ import 'package:tailwag/views/care_categories/medicare.dart';
 import 'package:tailwag/views/care_categories/pet_hospitals.dart';
 import 'package:tailwag/views/care_categories/record_datas.dart';
 import 'package:tailwag/views/care_categories/reminder.dart';
+import 'package:tailwag/widgets/hospital_list_tile.dart';
 import 'package:tailwag/widgets/shop_list_tile.dart';
 
 import '../widgets/pet_select_tile.dart';
@@ -142,7 +143,7 @@ class Care extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView(
+              child: Column(
                 children: [
                   const SizedBox(
                     height: 10,
@@ -293,16 +294,30 @@ class Care extends StatelessWidget {
                       })
                     ],
                   ),
-                  const ShopListTile(
-                      shopTitle: 'June Martin',
-                      shopLocation: 'Perinthalmanna, Kerala',
-                      rating: 4.8,
-                      imageURL: 'assets/images/bowmweow.png'),
-                  const ShopListTile(
-                      shopTitle: 'June Martin',
-                      shopLocation: 'Perinthalmanna, Kerala',
-                      rating: 4.8,
-                      imageURL: 'assets/images/bowmweow.png'),
+                  Expanded(
+                    child: Consumer<HospitalController>(
+                      builder: (context, hospitalProvider, _) {
+                        return ListView.builder(
+                          itemCount: hospitalProvider.hospitalsList.isEmpty
+                              ? 0
+                              : hospitalProvider.hospitalsList.length == 1
+                                  ? 1
+                                  : 2,
+                          itemBuilder: (context, index) {
+                            return HospitalListTile(
+                                shopTitle: hospitalProvider
+                                    .hospitalsList[index].hospitalName,
+                                shopLocation: hospitalProvider
+                                    .hospitalsList[index].hospitalLocation,
+                                rating: hospitalProvider
+                                    .hospitalsList[index].hospitalRating,
+                                imageURL: hospitalProvider
+                                    .hospitalsList[index].hospitalPhoto);
+                          },
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             )
