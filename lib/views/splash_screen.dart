@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tailwag/controller/bottomnavbar_controller.dart';
+import 'package:tailwag/controller/admin_controller.dart';
 import 'package:tailwag/controller/controller.dart';
-import 'package:tailwag/controller/hospital_controller.dart';
 import 'package:tailwag/controller/sitter_controller.dart';
+import 'package:tailwag/views/admin/hospital/admin_hospitals.dart';
 import 'package:tailwag/views/on_boarding/onboarding_4.dart';
 import 'package:tailwag/widgets/bottomnavbar.dart';
 import 'package:tailwag/widgets/sitter_bottom_navbar.dart';
@@ -18,14 +18,14 @@ class SplashScreen extends StatelessWidget {
     final userProvider = Provider.of<Controller>(context, listen: false);
     final sitterProvider =
         Provider.of<SitterController>(context, listen: false);
-    final hospitalPro = Provider.of<HospitalController>(context, listen: false);
+    final adminProvider = Provider.of<AdminController>(context, listen: false);
     // final bottomProvider =
     //     Provider.of<BottomNavBarController>(context, listen: false);
 
     gotoNext(context) async {
       await userProvider.getDataFromFirestore();
       await sitterProvider.fetchSitterData();
-      await hospitalPro.fetchHospitals();
+      await adminProvider.fetchHospitals();
       if (userProvider.isSignedIn == true) {
         Navigator.of(context).push(
           MaterialPageRoute(
@@ -36,6 +36,12 @@ class SplashScreen extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => const SitterBottomNavBar(),
+          ),
+        );
+      } else if (adminProvider.adminSignIn == true) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const AdminHospital(),
           ),
         );
       } else {

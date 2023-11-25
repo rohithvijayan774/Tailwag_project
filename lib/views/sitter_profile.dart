@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:tailwag/const.dart';
 import 'package:tailwag/widgets/category_circle_tile.dart';
 
@@ -122,7 +123,12 @@ class SitterProfile extends StatelessWidget {
                               style: const ButtonStyle(
                                   backgroundColor:
                                       MaterialStatePropertyAll(Colors.white)),
-                              onPressed: () {},
+                              onPressed: () async {
+                                PermissionStatus phonePermission =
+                                    await Permission.phone.request();
+                                if (phonePermission ==
+                                    PermissionStatus.granted) {}
+                              },
                               icon: const Icon(
                                 Icons.call_outlined,
                                 color: color2,
@@ -139,7 +145,12 @@ class SitterProfile extends StatelessWidget {
                               style: const ButtonStyle(
                                   backgroundColor:
                                       MaterialStatePropertyAll(Colors.white)),
-                              onPressed: () {},
+                              onPressed: () async {
+                                PermissionStatus smsPermission =
+                                    await Permission.sms.request();
+                                if (smsPermission ==
+                                    PermissionStatus.granted) {}
+                              },
                               icon: const Icon(
                                 Icons.message_outlined,
                                 color: color2,

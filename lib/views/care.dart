@@ -2,16 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
+import 'package:tailwag/controller/admin_controller.dart';
 import 'package:tailwag/controller/bottomnavbar_controller.dart';
 import 'package:tailwag/controller/controller.dart';
-import 'package:tailwag/controller/hospital_controller.dart';
 import 'package:tailwag/views/care_categories/grooming.dart';
 import 'package:tailwag/views/care_categories/medicare.dart';
 import 'package:tailwag/views/care_categories/pet_hospitals.dart';
 import 'package:tailwag/views/care_categories/record_datas.dart';
 import 'package:tailwag/views/care_categories/reminder.dart';
 import 'package:tailwag/widgets/hospital_list_tile.dart';
-import 'package:tailwag/widgets/shop_list_tile.dart';
 
 import '../widgets/pet_select_tile.dart';
 
@@ -280,8 +279,8 @@ class Care extends StatelessWidget {
                             fontSize: 15,
                             fontWeight: FontWeight.bold),
                       ),
-                      Consumer<HospitalController>(
-                          builder: (context, hospitalController, _) {
+                      Consumer<AdminController>(
+                          builder: (context, adminController, _) {
                         return TextButton(
                             onPressed: () {
                               Navigator.of(context).push(
@@ -295,23 +294,23 @@ class Care extends StatelessWidget {
                     ],
                   ),
                   Expanded(
-                    child: Consumer<HospitalController>(
-                      builder: (context, hospitalProvider, _) {
+                    child: Consumer<AdminController>(
+                      builder: (context, adminProvider, _) {
                         return ListView.builder(
-                          itemCount: hospitalProvider.hospitalsList.isEmpty
+                          itemCount: adminProvider.hospitalsList.isEmpty
                               ? 0
-                              : hospitalProvider.hospitalsList.length == 1
+                              : adminProvider.hospitalsList.length == 1
                                   ? 1
                                   : 2,
                           itemBuilder: (context, index) {
                             return HospitalListTile(
-                                shopTitle: hospitalProvider
+                                shopTitle: adminProvider
                                     .hospitalsList[index].hospitalName,
-                                shopLocation: hospitalProvider
+                                shopLocation: adminProvider
                                     .hospitalsList[index].hospitalLocation,
-                                rating: hospitalProvider
-                                    .hospitalsList[index].hospitalRating,
-                                imageURL: hospitalProvider
+                                rating: adminProvider
+                                    .hospitalsList[index].hospitalRating!,
+                                imageURL: adminProvider
                                     .hospitalsList[index].hospitalPhoto);
                           },
                         );

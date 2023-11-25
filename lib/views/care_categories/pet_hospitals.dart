@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
-import 'package:tailwag/controller/hospital_controller.dart';
+import 'package:tailwag/controller/admin_controller.dart';
 import 'package:tailwag/widgets/hospital_list_tile.dart';
 
 class PetHospitals extends StatelessWidget {
@@ -33,10 +33,9 @@ class PetHospitals extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Consumer<HospitalController>(
-          builder: (context, hospitalController, _) {
+      body: Consumer<AdminController>(builder: (context, adminController, _) {
         return FutureBuilder(
-            future: hospitalController.fetchHospitals(),
+            future: adminController.fetchHospitals(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -49,7 +48,7 @@ class PetHospitals extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ListView.separated(
-                  itemCount: hospitalController.hospitalsList.length,
+                  itemCount: adminController.hospitalsList.length,
                   separatorBuilder: (context, index) {
                     return const SizedBox(
                       height: 20,
@@ -58,13 +57,13 @@ class PetHospitals extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return HospitalListTile(
                       shopTitle:
-                          hospitalController.hospitalsList[index].hospitalName,
-                      shopLocation: hospitalController
-                          .hospitalsList[index].hospitalLocation,
-                      rating: hospitalController
-                          .hospitalsList[index].hospitalRating,
+                          adminController.hospitalsList[index].hospitalName,
+                      shopLocation:
+                          adminController.hospitalsList[index].hospitalLocation,
+                      rating:
+                          adminController.hospitalsList[index].hospitalRating!,
                       imageURL:
-                          hospitalController.hospitalsList[index].hospitalPhoto,
+                          adminController.hospitalsList[index].hospitalPhoto,
                     );
                     // return ListTile(
                     //   leading: Container(
@@ -73,10 +72,10 @@ class PetHospitals extends StatelessWidget {
                     //     decoration: BoxDecoration(
                     //       color: color3,
                     //       image: DecorationImage(
-                    //         image: hospitalController
+                    //         image: AdminController
                     //                     .hospitalsList[index].hospitalPhoto !=
                     //                 ""
-                    //             ? NetworkImage(hospitalController
+                    //             ? NetworkImage(AdminController
                     //                 .hospitalsList[index].hospitalPhoto)
                     //             : const AssetImage(
                     //                     'assets/images/hospital_default_dp.jpg')
@@ -86,7 +85,7 @@ class PetHospitals extends StatelessWidget {
                     //     ),
                     //   ),
                     //   title: Text(
-                    //       hospitalController.hospitalsList[index].hospitalName),
+                    //       AdminController.hospitalsList[index].hospitalName),
                     // );
                   },
                 ),

@@ -1,20 +1,20 @@
 class HospitalModel {
   String hospitalid;
   String hospitalName;
-  String? hospitalDetails;
-  String hospitalPhoto;
+  String hospitalDetails;
+  String? hospitalPhoto;
   String hospitalLocation;
-  double hospitalRating;
+  double? hospitalRating;
   String? hospitalImages;
   String? hospitalMedia;
 
   HospitalModel({
     required this.hospitalid,
     required this.hospitalName,
-    this.hospitalDetails,
-    required this.hospitalPhoto,
+    required this.hospitalDetails,
+     this.hospitalPhoto,
     required this.hospitalLocation,
-    required this.hospitalRating,
+    this.hospitalRating,
     this.hospitalImages,
     this.hospitalMedia,
   });
@@ -25,7 +25,7 @@ class HospitalModel {
       hospitalName: map['hospitalName'],
       hospitalPhoto: map['hospitalPhoto'],
       hospitalLocation: map['hospitalLocation'],
-      hospitalRating: map['hospitalRating'],
+      hospitalRating: map['hospitalRating'] ?? 0,
       hospitalDetails: map['hospitalDetails'],
       hospitalImages: map['hospitalImages'],
       hospitalMedia: map['hospitalMedia'],

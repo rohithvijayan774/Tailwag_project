@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
-import 'package:tailwag/controller/bottomnavbar_controller.dart';
 import 'package:tailwag/controller/controller.dart';
 import 'package:tailwag/views/user_signup/pet_details.dart';
 import 'package:tailwag/widgets/about_my_pet.dart';
@@ -60,9 +60,14 @@ class Profile extends StatelessWidget {
                       right: 0,
                       child: IconButton(
                         onPressed: () async {
-                          await userProfileProvider.selectPetPic(context).then(
-                              (value) => userProfileProvider
-                                  .uploadPetPic(userProfileProvider.petPic!));
+                          PermissionStatus galleryPermission =
+                              await Permission.photos.request();
+                          if (galleryPermission == PermissionStatus.granted) {
+                            await userProfileProvider
+                                .selectPetPic(context)
+                                .then((value) => userProfileProvider
+                                    .uploadPetPic(userProfileProvider.petPic!));
+                          }
                         },
                         icon: const Icon(Icons.edit_square),
                       ),

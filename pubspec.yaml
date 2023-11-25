@@ -42,6 +42,7 @@ dependencies:
   flutter_plugin_android_lifecycle: ^2.0.17
   image_picker: ^1.0.4
   intl: ^0.18.1
+  permission_handler: 
   pinput: ^3.0.1
   provider: ^6.0.5
   responsive_builder: ^0.7.0
@@ -134,6 +135,7 @@ flutter:
     - assets/images/sitter_coverpic.jpg
     - assets/images/sitter_default_propic.jpg
     - assets/images/hospital_default_dp.jpg
+    - assets/images/docs.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

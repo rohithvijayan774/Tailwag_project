@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tailwag/const.dart';
+import 'package:tailwag/views/admin/admin_login.dart';
 import 'package:tailwag/views/sitter_signup/sitter_signup.dart';
 import 'package:tailwag/views/user_signup/user_signup.dart';
 
@@ -61,6 +62,30 @@ class ContinueAs extends StatelessWidget {
                 },
                 child: const Text(
                   'Sitter',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'AbhayaLibre',
+                      fontSize: 20),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              width: width / 2,
+              child: ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(color2)),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const AdminLogin(),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Admin',
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'AbhayaLibre',
