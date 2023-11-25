@@ -13,7 +13,7 @@ class ShopModel {
     required this.shopid,
     required this.shopName,
     required this.shopDetails,
-    required this.shopPhoto,
+    this.shopPhoto,
     required this.shopLocation,
     required this.shopServices,
     this.shopRating,

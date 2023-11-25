@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
 import 'package:tailwag/controller/admin_controller.dart';
 import 'package:tailwag/views/admin/hospital/add_hospital.dart';
+import 'package:tailwag/views/admin/shops/add_shops.dart';
 import 'package:tailwag/widgets/hospital_list_tile.dart';
 
 class AdminShop extends StatelessWidget {
@@ -25,7 +26,7 @@ class AdminShop extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const AddHospital(),
+                  builder: (context) => const AddShops(),
                 ),
               );
             },
@@ -39,20 +40,25 @@ class AdminShop extends StatelessWidget {
       body: Consumer<AdminController>(
         builder: (context, adminHospitalController, _) {
           return FutureBuilder(
-            future: adminHospitalController.fetchHospitals(),
+            future: adminHospitalController.fetchShops(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
+                    color: color2,
                   ),
                 );
               }
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: adminHospitalController.hospitalsList.isEmpty
+                child: adminHospitalController.shopsList.isEmpty
                     ? const Center(
-                        child: Text('No Hospitals Found'),
+                        child: Text(
+                          'No Shops Found',
+                          style: TextStyle(
+                              fontFamily: 'AbhayaLibre', color: color2),
+                        ),
                       )
                     : ListView.separated(
                         itemCount: adminHospitalController.hospitalsList.length,
