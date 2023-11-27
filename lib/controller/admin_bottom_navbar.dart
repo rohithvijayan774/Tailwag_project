@@ -34,6 +34,18 @@ class AdminBottomNavBar extends StatelessWidget {
                 ),
                 label: 'Shops',
               ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.dashboard,
+                ),
+                label: 'Dashboard',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.local_pharmacy_outlined,
+                ),
+                label: 'Pharmacy',
+              ),
             ],
           ),
         );

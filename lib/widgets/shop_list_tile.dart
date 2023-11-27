@@ -26,7 +26,7 @@ class ShopListTile extends StatelessWidget {
               color: color2,
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
-                image: AssetImage(imageURL),
+                image: NetworkImage(imageURL),
                 fit: BoxFit.cover,
               ),
             ),

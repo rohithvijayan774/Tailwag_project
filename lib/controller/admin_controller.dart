@@ -423,10 +423,18 @@ class AdminController extends ChangeNotifier {
         pharmacyList.add(pharmacies!);
       }
       print('*********PHARMACY FETCH COMPLETE');
-      notifyListeners();
+      // notifyListeners();
     } catch (e) {
       print(e);
     }
+    // notifyListeners();
+  }
+
+  clearPharmacyFields() {
+    pharmacyNameController.clear();
+    pharmacyDetailsController.clear();
+    pharmacyLocationController.clear();
+    pharmacyMedicineController.clear();
     notifyListeners();
   }
 }

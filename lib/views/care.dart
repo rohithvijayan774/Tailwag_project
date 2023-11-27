@@ -304,9 +304,9 @@ class Care extends StatelessWidget {
                                   : 2,
                           itemBuilder: (context, index) {
                             return HospitalListTile(
-                                shopTitle: adminProvider
+                                hospitalTitle: adminProvider
                                     .hospitalsList[index].hospitalName,
-                                shopLocation: adminProvider
+                                hospitalLocation: adminProvider
                                     .hospitalsList[index].hospitalLocation,
                                 rating: adminProvider
                                     .hospitalsList[index].hospitalRating!,

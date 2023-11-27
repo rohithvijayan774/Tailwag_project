@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
 import 'package:tailwag/controller/admin_controller.dart';
-import 'package:tailwag/views/admin/hospital/add_hospital.dart';
 import 'package:tailwag/views/admin/shops/add_shops.dart';
-import 'package:tailwag/widgets/hospital_list_tile.dart';
+import 'package:tailwag/widgets/shop_list_tile.dart';
 
 class AdminShop extends StatelessWidget {
   const AdminShop({super.key});
@@ -38,9 +37,9 @@ class AdminShop extends StatelessWidget {
         ],
       ),
       body: Consumer<AdminController>(
-        builder: (context, adminHospitalController, _) {
+        builder: (context, adminShopController, _) {
           return FutureBuilder(
-            future: adminHospitalController.fetchShops(),
+            future: adminShopController.fetchShops(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -52,7 +51,7 @@ class AdminShop extends StatelessWidget {
               }
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: adminHospitalController.shopsList.isEmpty
+                child: adminShopController.shopsList.isEmpty
                     ? const Center(
                         child: Text(
                           'No Shops Found',
@@ -61,26 +60,26 @@ class AdminShop extends StatelessWidget {
                         ),
                       )
                     : ListView.separated(
-                        itemCount: adminHospitalController.hospitalsList.length,
+                        itemCount: adminShopController.shopsList.length,
                         separatorBuilder: (context, index) {
                           return const SizedBox(
                             height: 20,
                           );
                         },
                         itemBuilder: (context, index) {
-                          return HospitalListTile(
-                            shopTitle: adminHospitalController
-                                .hospitalsList[index].hospitalName,
-                            shopLocation: adminHospitalController
-                                .hospitalsList[index].hospitalLocation,
-                            rating: adminHospitalController
-                                        .hospitalsList[index].hospitalRating !=
+                          return ShopListTile(
+                            shopTitle:
+                                adminShopController.shopsList[index].shopName,
+                            shopLocation: adminShopController
+                                .shopsList[index].shopLocation,
+                            rating: adminShopController
+                                        .shopsList[index].shopRating !=
                                     null
-                                ? adminHospitalController
-                                    .hospitalsList[index].hospitalRating!
+                                ? adminShopController
+                                    .shopsList[index].shopRating!
                                 : 0,
-                            imageURL: adminHospitalController
-                                .hospitalsList[index].hospitalPhoto,
+                            imageURL:
+                                adminShopController.shopsList[index].shopPhoto!,
                           );
                         },
                       ),

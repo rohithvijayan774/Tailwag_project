@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:tailwag/const.dart';
 
 class HospitalListTile extends StatelessWidget {
-  final String shopTitle;
-  final String shopLocation;
+  final String hospitalTitle;
+  final String hospitalLocation;
   final double rating;
   final String? imageURL;
   const HospitalListTile({
     super.key,
-    required this.shopTitle,
-    required this.shopLocation,
+    required this.hospitalTitle,
+    required this.hospitalLocation,
     required this.rating,
     required this.imageURL,
   });
@@ -41,7 +41,7 @@ class HospitalListTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    shopTitle,
+                    hospitalTitle,
                     style: const TextStyle(
                         fontSize: 20,
                         color: color2,
@@ -50,7 +50,7 @@ class HospitalListTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    shopLocation,
+                    hospitalLocation,
                     style: const TextStyle(
                         color: Colors.grey,
                         fontFamily: 'SofiaPro',

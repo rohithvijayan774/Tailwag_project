@@ -56,9 +56,9 @@ class PetHospitals extends StatelessWidget {
                   },
                   itemBuilder: (context, index) {
                     return HospitalListTile(
-                      shopTitle:
+                      hospitalTitle:
                           adminController.hospitalsList[index].hospitalName,
-                      shopLocation:
+                      hospitalLocation:
                           adminController.hospitalsList[index].hospitalLocation,
                       rating:
                           adminController.hospitalsList[index].hospitalRating!,

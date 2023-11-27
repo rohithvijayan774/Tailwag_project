@@ -63,9 +63,9 @@ class AdminHospital extends StatelessWidget {
                         },
                         itemBuilder: (context, index) {
                           return HospitalListTile(
-                            shopTitle: adminHospitalController
+                            hospitalTitle: adminHospitalController
                                 .hospitalsList[index].hospitalName,
-                            shopLocation: adminHospitalController
+                            hospitalLocation: adminHospitalController
                                 .hospitalsList[index].hospitalLocation,
                             rating: adminHospitalController
                                         .hospitalsList[index].hospitalRating !=

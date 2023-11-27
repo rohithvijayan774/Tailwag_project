@@ -4,8 +4,8 @@ import 'package:tailwag/const.dart';
 import 'package:tailwag/controller/admin_controller.dart';
 import 'package:tailwag/widgets/image_pick_tile.dart';
 
-class AddShops extends StatelessWidget {
-  const AddShops({super.key});
+class AddPharmacy extends StatelessWidget {
+  const AddPharmacy({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,24 +16,24 @@ class AddShops extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'Add Shop',
+          'Add Pharmacy',
           style:
               TextStyle(color: color2, fontFamily: 'AbhayaLibre', fontSize: 30),
         ),
         backgroundColor: color1,
       ),
       body: Consumer<AdminController>(
-        builder: (context, shopAddController, _) {
+        builder: (context, pharmacyAddController, _) {
           return Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
             child: SingleChildScrollView(
               child: Form(
-                key: shopAddController.shopAddKey,
+                key: pharmacyAddController.pharmacyAddKey,
                 child: Column(
                   children: [
                     TextFormField(
                       textCapitalization: TextCapitalization.words,
-                      controller: shopAddController.shopNameController,
+                      controller: pharmacyAddController.pharmacyNameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return '*this field is required';
@@ -55,7 +55,7 @@ class AddShops extends StatelessWidget {
                           fontFamily: 'AbhayaLibre_regular',
                           fontWeight: FontWeight.w600,
                         ),
-                        hintText: 'Shop Name',
+                        hintText: 'Pharmacy Name',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(10),
@@ -70,7 +70,8 @@ class AddShops extends StatelessWidget {
                     TextFormField(
                       maxLines: 3,
                       textCapitalization: TextCapitalization.words,
-                      controller: shopAddController.shopDetailsController,
+                      controller:
+                          pharmacyAddController.pharmacyDetailsController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return '*this field is required';
@@ -92,7 +93,7 @@ class AddShops extends StatelessWidget {
                           fontFamily: 'AbhayaLibre_regular',
                           fontWeight: FontWeight.w600,
                         ),
-                        hintText: 'Shop Details',
+                        hintText: 'Pharmacy Details',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(10),
@@ -106,19 +107,20 @@ class AddShops extends StatelessWidget {
                     ),
                     ImagePickTile(
                       onPressed: () {
-                        shopAddController.selectShopPic(context);
+                        pharmacyAddController.selectPharmacyPic(context);
                       },
-                      subtitile: shopAddController.shopPic == null
+                      subtitile: pharmacyAddController.pharmacyPic == null
                           ? 'Nothing Selected'
-                          : shopAddController.shopPic.toString(),
-                      title: 'Shop Photo',
+                          : pharmacyAddController.pharmacyPic.toString(),
+                      title: 'Pharmacy Photo',
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     TextFormField(
                       textCapitalization: TextCapitalization.words,
-                      controller: shopAddController.shopLocationController,
+                      controller:
+                          pharmacyAddController.pharmacyLocationController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return '*this field is required';
@@ -140,7 +142,7 @@ class AddShops extends StatelessWidget {
                           fontFamily: 'AbhayaLibre_regular',
                           fontWeight: FontWeight.w600,
                         ),
-                        hintText: 'Shop Location',
+                        hintText: 'Pharmacy Location',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(10),
@@ -154,7 +156,8 @@ class AddShops extends StatelessWidget {
                     ),
                     TextFormField(
                       textCapitalization: TextCapitalization.words,
-                      controller: shopAddController.shopServiceController,
+                      controller:
+                          pharmacyAddController.pharmacyMedicineController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return '*this field is required';
@@ -176,7 +179,7 @@ class AddShops extends StatelessWidget {
                           fontFamily: 'AbhayaLibre_regular',
                           fontWeight: FontWeight.w600,
                         ),
-                        hintText: 'Shop Services',
+                        hintText: 'Pharmacy Medicines',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(10),
@@ -197,18 +200,22 @@ class AddShops extends StatelessWidget {
                           backgroundColor: MaterialStatePropertyAll(color2),
                         ),
                         onPressed: () async {
-                          if (shopAddController.shopAddKey.currentState!
+                          if (pharmacyAddController.pharmacyAddKey.currentState!
                               .validate()) {
-                            await shopAddController.saveShop(
-                              shopAddController.shopNameController.text,
-                              shopAddController.shopLocationController.text,
-                              shopAddController.shopDetailsController.text,
-                              shopAddController.shopServiceController.text,
+                            await pharmacyAddController.savePharmacy(
+                              pharmacyAddController.pharmacyNameController.text,
+                              pharmacyAddController
+                                  .pharmacyLocationController.text,
+                              pharmacyAddController
+                                  .pharmacyDetailsController.text,
+                              pharmacyAddController
+                                  .pharmacyMedicineController.text,
                             );
-                            shopAddController.uploadShopPhoto(
-                                shopAddController.shopPic!,
-                                shopAddController.shopNameController.text);
-                            shopAddController.clearshopFields();
+                            pharmacyAddController.uploadPharmacyPhoto(
+                                pharmacyAddController.pharmacyPic!,
+                                pharmacyAddController
+                                    .pharmacyNameController.text);
+                            pharmacyAddController.clearPharmacyFields();
                             Navigator.of(context).pop();
                           }
                         },
