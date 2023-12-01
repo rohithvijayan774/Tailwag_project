@@ -285,6 +285,12 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          homePageProvider.notificationServices
+              .sendNotification('This is Title', 'This is Body');
+        },
+      ),
     );
   }
 }

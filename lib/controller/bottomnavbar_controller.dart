@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tailwag/views/admin/admin_dashboard.dart';
 import 'package:tailwag/views/admin/hospital/admin_hospitals.dart';
 import 'package:tailwag/views/admin/pharmacy/admin_pharmacy.dart';
+import 'package:tailwag/views/admin/product/admin_product.dart';
 import 'package:tailwag/views/admin/shops/admin_shop.dart';
 import 'package:tailwag/views/home_screen.dart';
 import 'package:tailwag/views/profile.dart';
@@ -35,10 +36,11 @@ class BottomNavBarController extends ChangeNotifier {
   int adminCurrentIndex = 0;
 
   List<Widget> adminPages = [
+    const AdminDashboard(),
     const AdminHospital(),
     const AdminShop(),
-    const AdminDashboard(),
     const AdminPharmacy(),
+    const AdminProduct(),
   ];
 
   void updateAdminIndex(int newIndex) {

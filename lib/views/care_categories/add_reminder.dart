@@ -151,6 +151,7 @@ class AddReminder extends StatelessWidget {
                               },
                               onTap: () {
                                 addReminderProvider.reminderSelectTime(context);
+                              
                               },
                               decoration: const InputDecoration(
                                 prefixIcon: Icon(Icons.av_timer_sharp),
@@ -228,21 +229,33 @@ class AddReminder extends StatelessWidget {
                         onPressed: () {
                           if (addReminderProvider.reminderFormKey.currentState!
                               .validate()) {
-                            addReminderProvider
-                                .saveReminder(
-                                  '${addReminderProvider.reminderDateController.text}${addReminderProvider.reminderTitleController.text}',
-                                  addReminderProvider
-                                      .reminderDateController.text,
-                                  addReminderProvider
-                                      .reminderTimeController.text,
-                                  addReminderProvider
-                                      .reminderTitleController.text,
-                                  addReminderProvider
-                                      .reminderDescriptionController.text,
-                                )
-                                .then(
-                                  (value) => Navigator.pop(context),
-                                );
+                            DateTime? scheduledTIme =
+                                addReminderProvider.combinedDateTime();
+                            print(scheduledTIme);
+                            addReminderProvider.notificationServices
+                                .scheduleNotification(
+                                    schedulNotificationDateTime: scheduledTIme);
+
+                            // addReminderProvider
+                            //     .saveReminder(
+                            //       '${addReminderProvider.reminderDateController.text}${addReminderProvider.reminderTitleController.text}',
+                            //       addReminderProvider
+                            //           .reminderDateController.text,
+                            //       addReminderProvider
+                            //           .reminderTimeController.text,
+                            //       addReminderProvider
+                            //           .reminderTitleController.text,
+                            //       addReminderProvider
+                            //           .reminderDescriptionController.text,
+                            //     )
+                            //     // .then((value) => NotificationServices()
+                            //     //     .scheduleNotification(
+                            //     //         schedulNotificationDateTime:
+                            //     //             addReminderProvider
+                            //     //                 .combinedDateTime()!))
+                            //     .then(
+                            //       (value) => Navigator.pop(context),
+                            //     );
                           }
                         },
                         child: const Text(

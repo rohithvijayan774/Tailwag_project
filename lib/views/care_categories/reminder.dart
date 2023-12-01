@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
 import 'package:tailwag/controller/controller.dart';
+import 'package:tailwag/services/notification_sevices.dart';
 import 'package:tailwag/views/care_categories/add_reminder.dart';
 import 'package:tailwag/widgets/pet_tiny_avatar.dart';
 
@@ -20,6 +21,9 @@ class Reminder extends StatelessWidget {
     var reminderDate = DateFormat('dd-MMM-yyyy').format(todayDate);
     // var reminderDate;
     // provider.fetchReminder(formattedReminderDateNow);
+
+    NotificationServices notificationServices = NotificationServices();
+
     return Scaffold(
       backgroundColor: color1,
       body: Padding(
@@ -41,6 +45,7 @@ class Reminder extends StatelessWidget {
                           IconButton(
                             onPressed: () {
                               Navigator.of(context).pop();
+                              
                             },
                             icon: const Icon(
                               Icons.arrow_back_ios_new_sharp,

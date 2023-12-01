@@ -24,6 +24,12 @@ class AdminBottomNavBar extends StatelessWidget {
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(
+                  Icons.dashboard,
+                ),
+                label: 'Dashboard',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
                   Icons.medical_services_outlined,
                 ),
                 label: 'Hospitals',
@@ -36,15 +42,15 @@ class AdminBottomNavBar extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.dashboard,
-                ),
-                label: 'Dashboard',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
                   Icons.local_pharmacy_outlined,
                 ),
                 label: 'Pharmacy',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.production_quantity_limits,
+                ),
+                label: 'Product',
               ),
             ],
           ),

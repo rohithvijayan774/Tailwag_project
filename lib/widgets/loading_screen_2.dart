@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
 import 'package:tailwag/controller/sitter_controller.dart';
-import 'package:tailwag/widgets/sitter_bottom_navbar.dart';
+import 'package:tailwag/views/sitter_main_profile.dart';
 
 class LoadingScreen2 extends StatelessWidget {
   const LoadingScreen2({super.key});
@@ -17,7 +17,7 @@ class LoadingScreen2 extends StatelessWidget {
               .fetchSitterData()
               .then((value) => Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                    builder: (context) => const SitterBottomNavBar(),
+                    builder: (context) => const SitterMainProfile(),
                   ),
                   (route) => false)),
           builder: (context, snapshot) {

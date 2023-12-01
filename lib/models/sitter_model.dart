@@ -8,6 +8,7 @@ class SitterModel {
   String sitterDetails;
   String? sitterProPic;
   String? sitterCoverPic;
+  double? sitterRating;
 
   SitterModel({
     required this.sitterRegisterid,
@@ -19,6 +20,7 @@ class SitterModel {
     required this.sitterDetails,
     this.sitterProPic,
     this.sitterCoverPic,
+    this.sitterRating,
   });
 
   factory SitterModel.fromMap(Map<String, dynamic> map) {
@@ -32,6 +34,7 @@ class SitterModel {
       sitterDetails: map['sitterDetails'],
       sitterProPic: map['sitterProPic'],
       sitterCoverPic: map['sitterCoverPic'],
+      sitterRating: map['sitterRating'] ?? 0,
     );
   }
 
@@ -46,6 +49,7 @@ class SitterModel {
       'sitterDetails': sitterDetails,
       'sitterProPic': sitterProPic,
       'sitterCoverPic': sitterCoverPic,
+      'sitterRating':sitterRating,
     };
   }
 }

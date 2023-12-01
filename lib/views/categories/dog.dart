@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
+import 'package:tailwag/controller/admin_controller.dart';
+import 'package:tailwag/views/care_categories/pet_hospitals.dart';
 import 'package:tailwag/views/categories/accessories.dart';
 import 'package:tailwag/views/categories/dog_food.dart';
 import 'package:tailwag/views/categories/dog_treats.dart';
 import 'package:tailwag/views/categories/health_and_hygiene.dart';
+import 'package:tailwag/views/categories/pet_shops.dart';
 import 'package:tailwag/widgets/categories_rectangle_tile.dart';
 import 'package:tailwag/widgets/shop_list_tile.dart';
 import 'package:tailwag/widgets/top_pick_tile.dart';
@@ -204,17 +208,47 @@ class Dog extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  const ShopListTile(
-                    shopTitle: 'BowmeoW',
-                    shopLocation: 'Perinthalmanna, Kerala',
-                    rating: 4.8,
-                    imageURL: 'assets/images/bowmweow.png',
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Top Shops',
+                        style: TextStyle(
+                            fontFamily: 'SofiaPro',
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const PetShops(),
+                            ),
+                          );
+                        },
+                        child: const Text('See all'),
+                      )
+                    ],
                   ),
-                  const ShopListTile(
-                    shopTitle: 'Baegopa Suhat',
-                    shopLocation: 'Perinthalmanna, Kerala',
-                    rating: 3.7,
-                    imageURL: 'assets/images/baegopa.png',
+                  Consumer<AdminController>(
+                    builder: (context, adminDogPageController, child) {
+                      return Column(
+                        children: [
+                          adminDogPageController.shopsList.isEmpty
+                              ? const Text('No Shops Found')
+                              : ShopListTile(
+                                  shopTitle: adminDogPageController
+                                      .shopsList[0].shopName,
+                                  shopLocation: adminDogPageController
+                                      .shopsList[0].shopLocation,
+                                  rating: adminDogPageController
+                                      .shopsList[0].shopRating!,
+                                  imageURL: adminDogPageController
+                                      .shopsList[0].shopPhoto!,
+                                )
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),

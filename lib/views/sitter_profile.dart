@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
+import 'package:tailwag/controller/controller.dart';
+import 'package:tailwag/controller/sitter_controller.dart';
 import 'package:tailwag/widgets/category_circle_tile.dart';
 
 class SitterProfile extends StatelessWidget {
@@ -10,6 +14,7 @@ class SitterProfile extends StatelessWidget {
   final String sitterTitle;
   final String sitterDetails;
   final String? sitterCoverPic;
+  final double sitterRating;
   const SitterProfile({
     super.key,
     this.proPicURL,
@@ -18,6 +23,7 @@ class SitterProfile extends StatelessWidget {
     required this.sitterTitle,
     required this.sitterDetails,
     this.sitterCoverPic,
+    required this.sitterRating,
   });
 
   @override
@@ -51,7 +57,7 @@ class SitterProfile extends StatelessWidget {
                 ),
                 Container(
                   width: width,
-                  height: height / 3.5,
+                  height: height / 3,
                   decoration: const BoxDecoration(color: color1),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 40),
@@ -73,35 +79,27 @@ class SitterProfile extends StatelessWidget {
                               fontSize: 15,
                               color: Colors.grey),
                         ),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.star,
                               color: Colors.amber,
                             ),
                             Text(
-                              '4.8',
-                              style: TextStyle(
+                              sitterRating.toString(),
+                              style: const TextStyle(
                                   fontFamily: 'SofiaPro',
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,
                                   color: Colors.grey),
                             ),
-                            VerticalDivider(
+                            const VerticalDivider(
                               width: 10,
                               color: Colors.grey,
                               thickness: 5,
                               endIndent: 10,
                               indent: 10,
-                            ),
-                            Text(
-                              '115 Ratings',
-                              style: TextStyle(
-                                  fontFamily: 'SofiaPro',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: Colors.grey),
                             ),
                           ],
                         ),
@@ -164,6 +162,21 @@ class SitterProfile extends StatelessWidget {
                               ),
                             ),
                           ],
+                        ),
+                        Consumer<SitterController>(
+                          builder: (context, sitterRatingController, _) {
+                            return RatingBar.builder(
+                              minRating: 0,
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (rating) {
+                                sitterRatingController.ratingUpdate(rating);
+                                print(sitterRatingController.rating);
+                              },
+                            );
+                          },
                         )
                       ],
                     ),

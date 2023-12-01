@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
+import 'package:tailwag/controller/admin_controller.dart';
 import 'package:tailwag/controller/controller.dart';
+import 'package:tailwag/views/care_categories/pet_pharmacy.dart';
 import 'package:tailwag/widgets/pet_tiny_avatar.dart';
 import 'package:tailwag/widgets/shop_list_tile.dart';
 import 'package:tailwag/widgets/top_pick_tile.dart';
@@ -140,19 +142,37 @@ class Medicare extends StatelessWidget {
                             fontSize: 15,
                             fontWeight: FontWeight.bold),
                       ),
-                      TextButton(onPressed: () {}, child: const Text('See all'))
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const PetPharmacy(),
+                              ),
+                            );
+                          },
+                          child: const Text('See all'))
                     ],
                   ),
-                  const ShopListTile(
-                      shopTitle: 'June Martin',
-                      shopLocation: 'Perinthalmanna, Kerala',
-                      rating: 4.8,
-                      imageURL: 'assets/images/bowmweow.png'),
-                  const ShopListTile(
-                      shopTitle: 'June Martin',
-                      shopLocation: 'Perinthalmanna, Kerala',
-                      rating: 4.8,
-                      imageURL: 'assets/images/baegopa.png')
+                  Consumer<AdminController>(
+                    builder: (context, adminMedicareController, child) {
+                      return Column(
+                        children: [
+                          adminMedicareController.pharmacyList.isEmpty
+                              ? const Text('No Shops Found')
+                              : ShopListTile(
+                                  shopTitle: adminMedicareController
+                                      .pharmacyList[0].pharmacyName,
+                                  shopLocation: adminMedicareController
+                                      .pharmacyList[0].pharmacyLocation,
+                                  rating: adminMedicareController
+                                      .pharmacyList[0].pharmacyRating!,
+                                  imageURL: adminMedicareController
+                                      .pharmacyList[0].pharmacyPhoto!,
+                                )
+                        ],
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

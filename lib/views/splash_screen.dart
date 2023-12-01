@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:tailwag/controller/admin_bottom_navbar.dart';
 import 'package:tailwag/controller/admin_controller.dart';
 import 'package:tailwag/controller/controller.dart';
 import 'package:tailwag/controller/sitter_controller.dart';
 import 'package:tailwag/views/admin/hospital/admin_hospitals.dart';
 import 'package:tailwag/views/on_boarding/onboarding_4.dart';
+import 'package:tailwag/views/sitter_main_profile.dart';
 import 'package:tailwag/widgets/bottomnavbar.dart';
 import 'package:tailwag/widgets/sitter_bottom_navbar.dart';
 
@@ -26,22 +29,29 @@ class SplashScreen extends StatelessWidget {
       await userProvider.getDataFromFirestore();
       await sitterProvider.fetchSitterData();
       await adminProvider.fetchHospitals();
+      await adminProvider.fetchShops();
+      await adminProvider.fetchPharmacy();
+      userProvider.notificationServices.initialiseNotifications();
       if (userProvider.isSignedIn == true) {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const BottomNavBar(),
-          ),
-        );
+        PermissionStatus notificationPermission =
+            await Permission.notification.request();
+        if (notificationPermission == PermissionStatus.granted) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const BottomNavBar(),
+            ),
+          );
+        }
       } else if (sitterProvider.sitterSignIn == true) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const SitterBottomNavBar(),
+            builder: (context) => const SitterMainProfile(),
           ),
         );
       } else if (adminProvider.adminSignIn == true) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const AdminHospital(),
+            builder: (context) => const AdminBottomNavBar(),
           ),
         );
       } else {

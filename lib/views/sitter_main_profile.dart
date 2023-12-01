@@ -67,31 +67,17 @@ class SitterMainProfile extends StatelessWidget {
                                 fontSize: 15,
                                 color: Colors.grey),
                           ),
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.star,
                                 color: Colors.amber,
                               ),
                               Text(
-                                '4.8',
-                                style: TextStyle(
-                                    fontFamily: 'SofiaPro',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    color: Colors.grey),
-                              ),
-                              VerticalDivider(
-                                width: 10,
-                                color: Colors.grey,
-                                thickness: 5,
-                                endIndent: 10,
-                                indent: 10,
-                              ),
-                              Text(
-                                '115 Ratings',
-                                style: TextStyle(
+                                sitterProvider.sitterModel.sitterRating
+                                    .toString(),
+                                style: const TextStyle(
                                     fontFamily: 'SofiaPro',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,

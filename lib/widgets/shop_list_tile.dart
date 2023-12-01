@@ -20,8 +20,8 @@ class ShopListTile extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            height: 100,
-            width: 100,
+            height: 80,
+            width: 80,
             decoration: BoxDecoration(
               color: color2,
               borderRadius: BorderRadius.circular(10),

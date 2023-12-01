@@ -3,16 +3,17 @@ import 'package:provider/provider.dart';
 import 'package:tailwag/const.dart';
 import 'package:tailwag/controller/admin_controller.dart';
 import 'package:tailwag/controller/bottomnavbar_controller.dart';
-import 'package:tailwag/views/admin/pharmacy/add_pharmacy.dart';
-import 'package:tailwag/widgets/shop_list_tile.dart';
+import 'package:tailwag/controller/controller.dart';
 
 class AdminDashboard extends StatelessWidget {
   const AdminDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // final bottomNavBarController = Provider.of<BottomNavBarController>(context);
-    List<String> items = ['Hopitals', 'Shops', 'Pharmacies'];
+    final bottomNavBarController = Provider.of<BottomNavBarController>(context);
+    List<String> items = ['Hopitals', 'Shops', 'Pharmacies', 'Products'];
+    final dashboardAdminController =
+        Provider.of<AdminController>(context, listen: false);
 
     return Scaffold(
       backgroundColor: color1,
@@ -24,21 +25,18 @@ class AdminDashboard extends StatelessWidget {
               TextStyle(color: color2, fontFamily: 'AbhayaLibre', fontSize: 30),
         ),
         backgroundColor: color1,
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {
-        //       Navigator.of(context).push(
-        //         MaterialPageRoute(
-        //           builder: (context) => const AddPharmacy(),
-        //         ),
-        //       );
-        //     },
-        //     icon: const Icon(
-        //       Icons.add_to_photos_outlined,
-        //       color: color2,
-        //     ),
-        //   )
-        // ],
+        actions: [
+          IconButton(
+            onPressed: () {
+              dashboardAdminController.adminsignOut(context);
+              bottomNavBarController.currentIndex = 0;
+            },
+            icon: const Icon(
+              Icons.logout,
+              color: color2,
+            ),
+          )
+        ],
       ),
       body: Consumer<AdminController>(
         builder: (context, adminDashboardController, _) {
@@ -46,6 +44,7 @@ class AdminDashboard extends StatelessWidget {
             adminDashboardController.hospitalsList.length,
             adminDashboardController.shopsList.length,
             adminDashboardController.pharmacyList.length,
+            adminDashboardController.productList.length,
           ];
           return ListView.separated(
               itemBuilder: (context, index) {

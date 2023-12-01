@@ -8,7 +8,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailwag/models/hospital_model.dart';
 import 'package:tailwag/models/pharmacy_model.dart';
+import 'package:tailwag/models/product_model.dart';
 import 'package:tailwag/models/shop_model.dart';
+import 'package:tailwag/views/splash_screen.dart';
 
 class AdminController extends ChangeNotifier {
   final adminID = 'tailwag@gmail.com';
@@ -50,6 +52,56 @@ class AdminController extends ChangeNotifier {
     sharedPreferences.setBool('admin_signin', false);
     _adminSignIn = false;
 
+    notifyListeners();
+  }
+
+  void adminsignOut(BuildContext ctx) {
+    showDialog(
+      context: ctx,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          // content: Text("Do you want to SignOut?"),
+          title: const Text(
+            'Do you want to SignOut?',
+            style:
+                TextStyle(fontFamily: 'SofiaPro', fontWeight: FontWeight.w600),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text(
+                'Cancel',
+                style: TextStyle(fontSize: 17, fontFamily: "SofiaPro"),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                setAdminSignOut();
+                // _isSignedIn = false;
+                // await clearLocalData();
+
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (ctx1) => const SplashScreen(),
+                    ),
+                    (route) => false);
+              },
+              child: const Text(
+                'SignOut',
+                style: TextStyle(
+                    fontSize: 17, color: Colors.red, fontFamily: "SofiaPro"),
+              ),
+            ),
+          ],
+        );
+      },
+    );
     notifyListeners();
   }
 
@@ -311,44 +363,6 @@ class AdminController extends ChangeNotifier {
     notifyListeners();
   }
 
-//______________________________________________________________________________
-  File? pharmacyPic;
-
-  Future<File> pickPharmacyPhoto(context) async {
-    try {
-      final pickedImage =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-
-      if (pickedImage != null) {
-        pharmacyPic = File(pickedImage.path);
-      }
-    } catch (e) {
-      print(e);
-    }
-    notifyListeners();
-    return pharmacyPic!;
-  }
-
-  Future<void> selectPharmacyPic(context) async {
-    pharmacyPic = await pickPharmacyPhoto(context);
-    notifyListeners();
-  }
-
-  uploadPharmacyPhoto(File pharmacyPhoto, String pharmacyName) async {
-    await storeImagetoStorge(
-            'Pharmacy Docs/$pharmacyName/Profile pic', pharmacyPhoto)
-        .then((value) async {
-      pharmacyModel.pharmacyPhoto = value;
-
-      DocumentReference docRef =
-          firebaseFirestore.collection('pharmacy').doc(pharmacyName);
-      docRef.update({'pharmacyPhoto': value});
-    });
-    _pharmacyModel = pharmacyModel;
-    print('Pic uploaded successfully');
-    notifyListeners();
-  }
-
   //__________________________PHARMACY CONTROL__________________________________
 
   TextEditingController pharmacyNameController = TextEditingController();
@@ -436,5 +450,167 @@ class AdminController extends ChangeNotifier {
     pharmacyLocationController.clear();
     pharmacyMedicineController.clear();
     notifyListeners();
+  }
+
+  File? pharmacyPic;
+
+  Future<File> pickPharmacyPhoto(context) async {
+    try {
+      final pickedImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+
+      if (pickedImage != null) {
+        pharmacyPic = File(pickedImage.path);
+      }
+    } catch (e) {
+      print(e);
+    }
+    notifyListeners();
+    return pharmacyPic!;
+  }
+
+  Future<void> selectPharmacyPic(context) async {
+    pharmacyPic = await pickPharmacyPhoto(context);
+    notifyListeners();
+  }
+
+  uploadPharmacyPhoto(File pharmacyPhoto, String pharmacyName) async {
+    await storeImagetoStorge(
+            'Pharmacy Docs/$pharmacyName/Profile pic', pharmacyPhoto)
+        .then((value) async {
+      pharmacyModel.pharmacyPhoto = value;
+
+      DocumentReference docRef =
+          firebaseFirestore.collection('pharmacy').doc(pharmacyName);
+      docRef.update({'pharmacyPhoto': value});
+    });
+    _pharmacyModel = pharmacyModel;
+    print('Pic uploaded successfully');
+    notifyListeners();
+  }
+
+  //______________________ADMIN PRODUCT_________________________________________
+
+  TextEditingController productNameController = TextEditingController();
+  TextEditingController productDetailsController = TextEditingController();
+  TextEditingController shopIDController = TextEditingController();
+
+  final productAddKey = GlobalKey<FormState>();
+
+  ProductModel? _productModel;
+  ProductModel get productModel => _productModel!;
+
+  Future<void> saveProductsToShop(
+    String productName,
+    String productDetails,
+    String shopID,
+  ) async {
+    print('**********SAVE PRODUCTS**************');
+    _productModel = ProductModel(
+      productid: '$productName,$shopID',
+      productName: productName,
+      productDetails: productDetails,
+      shopID: shopID,
+    );
+
+    await firebaseFirestore
+        .collection('shops')
+        .doc(shopID)
+        .collection('products')
+        .doc('$productName,$shopID')
+        .set(_productModel!.toMap());
+
+    await firebaseFirestore
+        .collection('products')
+        .doc('$productName,$shopID')
+        .set(_productModel!.toMap());
+
+    print('*******PRODUCTES SAVED**********');
+
+    notifyListeners();
+  }
+
+  File? productPic;
+
+  Future<File> pickProductPhoto(context) async {
+    try {
+      final pickedImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+
+      if (pickedImage != null) {
+        productPic = File(pickedImage.path);
+      }
+    } catch (e) {
+      print(e);
+    }
+    notifyListeners();
+    return productPic!;
+  }
+
+  Future<void> selectProductPic(context) async {
+    productPic = await pickProductPhoto(context);
+    notifyListeners();
+  }
+
+  uploadProductPhoto(
+      File productPhoto, String productName, String shopID) async {
+    await storeImagetoStorge('Shop Docs/$shopID/Product Pic', productPhoto)
+        .then((value) async {
+      productModel.productPhoto = value;
+
+      DocumentReference docRef = firebaseFirestore
+          .collection('shops')
+          .doc(shopID)
+          .collection('products')
+          .doc('$productName,$shopID');
+      docRef.update({'productPhoto': value});
+
+      DocumentReference productRef =
+          firebaseFirestore.collection('products').doc('$productName,$shopID');
+      productRef.update({'productPhoto': value});
+    });
+    _productModel = productModel;
+    print('Pic uploaded successfully');
+    notifyListeners();
+  }
+
+  clearProductField() {
+    productNameController.clear();
+    productDetailsController.clear();
+    shopIDController.clear();
+    notifyListeners();
+  }
+
+  List<ProductModel> productList = [];
+  ProductModel? products;
+
+  Future<void> fetchProducts() async {
+    try {
+      productList.clear();
+
+      CollectionReference productRef = firebaseFirestore.collection('products');
+      QuerySnapshot productSnapshot = await productRef.get();
+
+      for (var doc in productSnapshot.docs) {
+        String productid = doc['productid'];
+        String productName = doc['productName'];
+        String productPhoto = doc['productPhoto'];
+        double productRating = doc['productRating'] ?? 0;
+        String productDetails = doc['productDetails'];
+        String shopID = doc['shopID'];
+
+        products = ProductModel(
+          productid: productid,
+          productName: productName,
+          productDetails: productDetails,
+          shopID: shopID,
+          productPhoto: productPhoto,
+          productRating: productRating,
+        );
+        productList.add(products!);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

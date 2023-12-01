@@ -52,13 +52,15 @@ class SitterController extends ChangeNotifier {
     String sitterDetails,
   ) async {
     _sitterModel = SitterModel(
-        sitterRegisterid: sitterRegisterid,
-        sitterName: sitterName,
-        sitterPlace: sitterPlace,
-        sitterNumber: sitterNumber,
-        sitterEmail: sitterEmail,
-        sitterTitle: sitterTitle,
-        sitterDetails: sitterDetails);
+      sitterRegisterid: sitterRegisterid,
+      sitterName: sitterName,
+      sitterPlace: sitterPlace,
+      sitterNumber: sitterNumber,
+      sitterEmail: sitterEmail,
+      sitterTitle: sitterTitle,
+      sitterDetails: sitterDetails,
+      sitterRating: 0,
+    );
 
     await firebaseFirestore
         .collection('sitters')
@@ -289,6 +291,7 @@ class SitterController extends ChangeNotifier {
           sitterDetails: snapshot['sitterDetails'],
           sitterProPic: snapshot['sitterProPic'],
           sitterCoverPic: snapshot['sitterCoverPic'],
+          sitterRating: snapshot['sitterRating'],
         );
 
         _sitterid = sitterModel.sitterRegisterid;
@@ -430,6 +433,25 @@ class SitterController extends ChangeNotifier {
           builder: (context) => const OnBoarding4(),
         ),
       );
+    }
+    notifyListeners();
+  }
+
+  //Rating
+  double rating = 0;
+  ratingUpdate(double updateRating) async {
+    try {
+      print('calculate rating');
+      rating = rating + updateRating;
+      sitterModel.sitterRating = rating;
+      print('before docref');
+      DocumentReference docRef = firebaseFirestore
+          .collection('sitters')
+          .doc(firebaseAuth.currentUser!.uid);
+      docRef.update({'sitterRating': rating});
+      _sitterModel = sitterModel;
+    } catch (e) {
+      print('Rating Update Error :  $e');
     }
     notifyListeners();
   }

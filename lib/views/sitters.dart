@@ -149,6 +149,9 @@ class Sitters extends StatelessWidget {
                                             FadeTransition(
                                           opacity: animation,
                                           child: SitterProfile(
+                                            sitterRating: sitterPageController
+                                                .sittersList[index]
+                                                .sitterRating!,
                                             proPicURL: sitterPageController
                                                 .sittersList[index]
                                                 .sitterProPic,
@@ -195,16 +198,18 @@ class Sitters extends StatelessWidget {
                                             fontSize: 18,
                                             color: color2),
                                       ),
-                                      const Row(
+                                      Row(
                                         children: [
-                                          Icon(
+                                          const Icon(
                                             Icons.star,
                                             color: Colors.amber,
                                             size: 20,
                                           ),
                                           Text(
-                                            '4.5',
-                                            style: TextStyle(
+                                            sitterPageController
+                                                .sittersList[index].sitterRating
+                                                .toString(),
+                                            style: const TextStyle(
                                                 fontFamily: 'SofiaPro',
                                                 fontWeight: FontWeight.bold),
                                           )

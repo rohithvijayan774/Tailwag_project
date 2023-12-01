@@ -12,12 +12,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailwag/const.dart';
-import 'package:tailwag/controller/bottomnavbar_controller.dart';
 import 'package:tailwag/controller/sitter_controller.dart';
 import 'package:tailwag/models/my_notes_model.dart';
 import 'package:tailwag/models/reminder_model.dart';
 import 'package:tailwag/models/sitter_model.dart';
 import 'package:tailwag/models/user_model.dart';
+import 'package:tailwag/services/notification_sevices.dart';
 import 'package:tailwag/views/splash_screen.dart';
 import 'package:tailwag/views/user_signup/user_login.dart';
 import 'package:tailwag/widgets/bottomnavbar.dart';
@@ -27,9 +27,9 @@ class Controller extends ChangeNotifier {
   Controller() {
     checkSignedIn();
   }
-  final userSignUpFormKEy = GlobalKey<FormState>();
-  final userLoginFormKEy = GlobalKey<FormState>();
-  final petDetailsFormKEy = GlobalKey<FormState>();
+  GlobalKey<FormState> userSignUpFormKEy = GlobalKey<FormState>();
+  GlobalKey<FormState> userLoginFormKEy = GlobalKey<FormState>();
+  GlobalKey<FormState> petDetailsFormKEy = GlobalKey<FormState>();
 
   //------------------------OTP SERVICES----------------------------------------
 
@@ -457,6 +457,7 @@ class Controller extends ChangeNotifier {
         String sitterDetails = doc['sitterDetails'];
         String sitterProPic = doc['sitterProPic'] ?? 'null';
         String sitterCoverPic = doc['sitterCoverPic'] ?? 'null';
+        double sitterRating = doc['sitterRating'];
 
         sitters = SitterModel(
           sitterRegisterid: sitterRegisterid,
@@ -468,6 +469,7 @@ class Controller extends ChangeNotifier {
           sitterDetails: sitterDetails,
           sitterProPic: sitterProPic,
           sitterCoverPic: sitterCoverPic,
+          sitterRating: sitterRating,
         );
         sittersList.add(sitters!);
         print('***************************FETCHING FINISHED************');
@@ -484,7 +486,7 @@ class Controller extends ChangeNotifier {
   TextEditingController noteDateController = TextEditingController();
   TextEditingController noteTitleController = TextEditingController();
   TextEditingController noteDescriptionController = TextEditingController();
-  final myNotesKey = GlobalKey<FormState>();
+  GlobalKey<FormState> myNotesKey = GlobalKey<FormState>();
 
   Future<void> saveMyNotes(
     String date,
@@ -521,7 +523,7 @@ class Controller extends ChangeNotifier {
   List<MyNotesModel> myNotesList = [];
   MyNotesModel? myNotes;
 
- Future<void> fetchNotes() async {
+  Future<void> fetchNotes() async {
     try {
       print('********FETCHING NOTES******************');
       myNotesList.clear();
@@ -583,7 +585,7 @@ class Controller extends ChangeNotifier {
   TextEditingController reminderTitleController = TextEditingController();
   TextEditingController reminderDescriptionController = TextEditingController();
 
-  final reminderFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> reminderFormKey = GlobalKey<FormState>();
 
   Future<void> saveReminder(
     String reminderid,
@@ -612,6 +614,7 @@ class Controller extends ChangeNotifier {
   }
 
   DateTime? reminderSelectedDate;
+  String? formattedDate;
 
   Future<void> reminderSelectDate(context) async {
     final DateTime? picked = await showDatePicker(
@@ -623,6 +626,7 @@ class Controller extends ChangeNotifier {
 
     if (picked != null && picked != reminderSelectedDate) {
       reminderSelectedDate = picked;
+      formattedDate = DateFormat('dd-MM-yyyy').format(picked);
       reminderDateController.text = DateFormat('dd-MMM-yyyy').format(picked);
     }
 
@@ -630,6 +634,7 @@ class Controller extends ChangeNotifier {
   }
 
   TimeOfDay? reminderSelectedTime;
+  String? formattedTime;
 
   Future<void> reminderSelectTime(context) async {
     final picked =
@@ -637,17 +642,30 @@ class Controller extends ChangeNotifier {
 
     if (picked != null && picked != reminderSelectedTime) {
       reminderSelectedTime = picked;
-      final formattedTime = reminderSelectedTime!.format(context).toString();
-      reminderTimeController.text = formattedTime;
+      formattedTime = reminderSelectedTime!.format(context).toString();
+      reminderTimeController.text = formattedTime!;
     }
 
     notifyListeners();
   }
 
+  DateTime? combinedDateTime() {
+    if (reminderSelectedDate != null && reminderSelectedTime != null) {
+      return DateTime(
+        reminderSelectedDate!.year,
+        reminderSelectedDate!.month,
+        reminderSelectedDate!.day,
+        reminderSelectedTime!.hour,
+        reminderSelectedTime!.minute,
+      );
+    }
+    return null;
+  }
+
   List<ReminderModel> reminderList = [];
   ReminderModel? reminders;
 
- Future<void> fetchReminder(selectedDate) async {
+  Future<void> fetchReminder(selectedDate) async {
     try {
       print('*********FETCHING REMINDER *********');
       reminderList.clear();
@@ -768,4 +786,10 @@ class Controller extends ChangeNotifier {
     const Icon(Icons.settings_outlined),
     const Icon(Icons.logout_rounded),
   ];
+
+  //___________NOTIFICATION SERVICE____________
+
+  NotificationServices notificationServices = NotificationServices();
+
+
 }
